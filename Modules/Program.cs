@@ -14,25 +14,26 @@ class Program
 
 public class SumModule
 {
-	public static long MyTryParse(string p)
-	{
-		if (!long.TryParse(p, out long value1))
-			throw new ArgumentException($"Не вірний формат числа для параметра зі значенням {p}");
-		return value1;
-	}
-
-	public static int MyLongToInt(long l)
-	{
-		if (l > int.MaxValue || l < int.MinValue)
-			throw new ArgumentException($"Перевищено максимальне/мінімальне значення для параметра зі значенням {l}");
-		return (int)l;
-	}
-
 	public static long Sum(string param1, string param2)
 	{
-		int v1 = MyLongToInt(MyTryParse(param1));
-		int v2 = MyLongToInt(MyTryParse(param2));
+		if (!long.TryParse(param1, out long value1))
+			throw new ArgumentException($"Не вірний формат числа для параметра {nameof(param1)}");
 
-		return (long)(v1 + v2);
+		if (!long.TryParse(param2, out long value2))
+			throw new ArgumentException($"Не вірний формат числа для параметра {nameof(param2)}");
+
+		// перевірка макс мін для парам1
+		if (value1 > int.MaxValue)
+			throw new ArgumentException($"Перевищено максимальне значення для параметра {nameof(param1)}");
+		if (value1 < int.MinValue)
+			throw new ArgumentException($"Перевищено мінімальне значення для параметра {nameof(param1)}");
+
+		// перевірка макс мін для парам2
+		if (value2 > int.MaxValue)
+			throw new ArgumentException($"Перевищено максимальне значення для параметра {nameof(param2)}");
+		if (value2 < int.MinValue)
+			throw new ArgumentException($"Перевищено мінімальне значення для параметра {nameof(param2)}");
+
+		return value1 + value2;
 	}
 }
